@@ -52,3 +52,6 @@ print("Entregar a Yajirobe:")
 almacen.entregar_semillas(9)
 
 print("Cantidad de semillas disponibles:", almacen.get_cantidad())
+
+
+print
