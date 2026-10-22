@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portafolio | Noah Fox</title>
+  <style>
+    /* Reinicio básico */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #000;
+    }
+
+    /* Contenedor principal: dos columnas */
+    .pagina {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ---------- Columna izquierda ---------- */
+    .izquierda {
+      background: #c4a994;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      position: absolute;
+      top: 30px;
+      left: 34px;
+      z-index: 2;
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    h1 sup {
+      font-size: 0.2em;
+      font-weight: 400;
+      vertical-align: top;
+      margin-left: 6px;
+    }
+
+    /* Marcador de foto: cambia esto por tu <img> */
+    .foto {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 75%;
+      height: 85%;
+    }
+
+    .foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    /* Silueta de ejemplo (se puede borrar al poner una foto) */
+    .silueta-cabeza {
+      position: absolute;
+      top: 6%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 38%;
+      aspect-ratio: 3 / 4;
+      background: #3b2a22;
+      border-radius: 50% 50% 45% 45%;
+    }
+
+    .silueta-cuerpo {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 55%;
+      background: #e279b5;
+      border-radius: 45% 45% 0 0;
+    }
+
+    /* ---------- Columna derecha ---------- */
+    .derecha {
+      background: #ff7f41;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 48px 70px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      text-decoration: underline;
+      outline: none;
+    }
+
+    .redes {
+      display: flex;
+      gap: 12px;
+      margin-left: 8px;
+    }
+
+    .redes a {
+      font-size: 0.85rem;
+    }
+
+    /* Texto principal */
+    .presentacion {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .flecha {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #000;
+      color: #ff7f41;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      text-transform: uppercase;
+      max-width: 14em;
+    }
+
+    .boton {
+      display: inline-block;
+      padding: 14px 42px;
+      border: 1.5px solid #000;
+      border-radius: 999px;
+      color: #000;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 1.05rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .boton:hover,
+    .boton:focus-visible {
+      background: #000;
+      color: #ff7f41;
+      outline: none;
+    }
+
+    /* ---------- Móvil ---------- */
+    @media (max-width: 760px) {
+      .pagina { grid-template-columns: 1fr; }
+      .izquierda { min-height: 70vh; }
+      .derecha { gap: 50px; padding: 32px 24px 50px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="pagina">
+
+    <!-- Columna izquierda: nombre y foto -->
+    <section class="izquierda">
+      <h1>{{ titulo }} {{ nombre }}<sup>®</sup></h1>
+
+      <div class="foto">
+        {% if imagen %}
+          <img src="{{ imagen }}" alt="Retrato de {{ nombre }}">
+        {% else %}
+          <div class="silueta-cabeza"></div>
+          <div class="silueta-cuerpo"></div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Columna derecha: menú y presentación -->
+    <section class="derecha">
+      <nav>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#acerca">Acerca de</a>
+        <a href="#contacto">Contacto</a>
+        <div class="redes">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Twitter">t</a>
+          <a href="#" aria-label="Instagram">ig</a>
+        </div>
+      </nav>
+
+      <div class="presentacion">
+        <div class="flecha">&#8600;</div>
+        <h2>{{ cargo }}</h2>
+        <p>{{ mensaje }}</p>
+        <a class="boton" href="#proyectos">Ver trabajos</a>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
