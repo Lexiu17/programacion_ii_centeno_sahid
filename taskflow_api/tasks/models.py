@@ -3,7 +3,7 @@ from django.db import models
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -38,7 +38,7 @@ class Comida(models.Model):
 class Biblioteca(models.Model):
     nombre_libro = models.CharField(max_length=100)
     categoria = models.CharField(max_length=100)
-    descripcion = models.TextField(blank=True)
+    descripcion = models.TextField(blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
