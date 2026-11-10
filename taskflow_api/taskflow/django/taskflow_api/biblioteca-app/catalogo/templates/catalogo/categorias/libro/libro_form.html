@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar nuevo libro | Biblioteca</title>
+</head>
+<body>
+    <h1>Registrar nuevo libro</h1>
+    {% if not form.fields.categoria.queryset.exists %}
+        <p>
+            No hay categorías para seleccionar.
+            <a href="{% url 'categoria_create' %}">Registra una categoría primero</a>.
+        </p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+    <p><a href="{% url 'libro_list' %}">Volver
+    a la lista de libros</a></p>
+</body>
+</html>
