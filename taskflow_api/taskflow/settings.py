@@ -79,6 +79,8 @@ DATABASES = {
     }
 }
 
+<<<<<<< HEAD
+=======
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -90,6 +92,7 @@ DATABASES = {
     }
 }
 
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 

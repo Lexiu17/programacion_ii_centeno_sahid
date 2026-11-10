@@ -34,8 +34,13 @@ def task_create(request):
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
+<<<<<<< HEAD
+            form.save()
+            return redirect("tasks:proyect_lista")
+=======
             task = form.save()
             return redirect("tasks:task_lista")
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
     else:
         form = TaskForm()
 
@@ -49,7 +54,11 @@ def task_edit(request, task_id):
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
+<<<<<<< HEAD
+            return redirect("tasks:proyect_lista")
+=======
             return redirect("tasks:task_lista")
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
     else:
         form = TaskForm(instance=task)
 

@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 APEX // High Energy Interactive Showcase</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        f1red: '#FF1801',
+                        f1yellow: '#FFE500',
+                        f1cyan: '#00F0FF',
+                        f1dark: '#0B0D12',
+                        f1card: 'rgba(20, 24, 33, 0.75)'
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050608;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Styling */
+        .glass-panel {
+            background: rgba(18, 22, 31, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-panel-glow {
+            border: 1px solid rgba(255, 24, 1, 0.3);
+            box-shadow: 0 0 25px rgba(255, 24, 1, 0.2);
+        }
+
+        /* Animated Grid Overlay */
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0d12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF1801;
+            border-radius: 4px;
+        }
+
+        /* Speed lines animation */
+        @keyframes speedLines {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+
+        .speed-line {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #FF1801, transparent);
+            animation: speedLines 2s infinite linear;
+        }
+
+        /* Pulse glow animation */
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 24, 1, 0.6)); }
+            50% { filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.8)); }
+        }
+
+        .glow-pulse {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        /* Custom Clip Paths for Motorsport Aesthetic */
+        .clip-corner {
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .clip-btn {
+            clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+        }
+    </style>
+</head>
+<body class="bg-grid antialiased selection:bg-f1red selection:text-white">
+
+    <!-- Speed FX Overhead -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="speed-line left-[10%]" style="animation-delay: 0.2s;"></div>
+        <div class="speed-line left-[30%]" style="animation-delay: 1.1s;"></div>
+        <div class="speed-line left-[65%]" style="animation-delay: 0.7s;"></div>
+        <div class="speed-line left-[85%]" style="animation-delay: 1.5s;"></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-white/10 px-6 py-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-10 h-10 bg-f1red flex items-center justify-center font-orbitron font-black text-xl italic text-white clip-corner shadow-lg shadow-f1red/50">
+                    F1
+                </div>
+                <span class="font-orbitron text-xl font-black tracking-widest text-white italic">
+                    APEX<span class="text-f1red">.350</span>
+                </span>
+            </div>
+
+            <!-- Nav Links -->
+            <div class="hidden md:flex space-x-8 font-orbitron text-sm uppercase tracking-wider font-semibold">
+                <a href="#hero" class="hover:text-f1red transition duration-200">Inicio</a>
+                <a href="#teams" class="hover:text-f1red transition duration-200">Equipos & Sonido</a>
+                <a href="#tracks" class="hover:text-f1red transition duration-200">Circuitos</a>
+                <a href="#pitstop" class="hover:text-f1red transition duration-200">Pit Stop Game</a>
+                <a href="#tech" class="hover:text-f1red transition duration-200">Motor Híbrido</a>
+            </div>
+
+            <!-- Action Button -->
+            <div>
+                <a href="#pitstop" class="bg-f1red hover:bg-red-600 text-white font-orbitron font-bold text-xs uppercase px-5 py-2.5 clip-btn transition duration-300 flex items-center space-x-2 shadow-lg shadow-f1red/40">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                    <span>Jugar Minijuego</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-12 px-6">
+        <div class="absolute inset-0 bg-gradient-to-b from-f1red/10 via-transparent to-f1dark/90 z-0 pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+            
+            <!-- Hero Left Content -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-f1red/20 border border-f1red/50 text-f1red text-xs font-orbitron font-bold uppercase tracking-widest rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-f1red animate-ping"></span>
+                    <span>Temporada 2026 // Nueva Era Aerodinámica</span>
+                </div>
+
+                <h1 class="text-5xl sm:text-7xl font-orbitron font-black uppercase italic tracking-tight leading-none text-white">
+                    VELOCIDAD <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-f1red via-f1yellow to-f1cyan">
+                        SIN LÍMITES
+                    </span>
+                </h1>
+
+                <p class="text-gray-300 text-lg max-w-xl font-medium leading-relaxed">
+                    Siente la potencia de los monoplazas más avanzados del planeta. Telemetría en tiempo real, simulación de sonido de motores V6 Turbo Híbridos y pruebas de reacción en boxes.
+                </p>
+
+                <p>
+                    {{titulo}} {{nombre}} {{apellido}}
+                </p>
+
+                <!-- Action CTAs -->
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <button onclick="document.getElementById('teams').scrollIntoView({behavior: 'smooth'})" class="bg-gradient-to-r from-f1red to-red-600 text-white font-orbitron font-bold px-8 py-4 clip-btn hover:brightness-125 transition duration-300 shadow-xl shadow-f1red/40 flex items-center space-x-3">
+                        <i class="fa-solid fa-gauge-high text-lg"></i>
+                        <span>EXPLORAR EQUIPOS</span>
+                    </button>
+                    <button onclick="document.getElementById('pitstop').scrollIntoView({behavior: 'smooth'})" class="glass-panel border-f1cyan/50 hover:bg-f1cyan/20 text-f1cyan font-orbitron font-bold px-8 py-4 clip-btn transition duration-300 flex items-center space-x-3">
+                        <i class="fa-solid fa-gamepad text-lg"></i>
+                        <span>DESAFÍO PIT STOP</span>
+                    </button>
+                </div>
+
+                <!-- Real-time Dynamic Stats Counters -->
+                <div class="grid grid-cols-3 gap-4 pt-8 border-t border-white/10">
+                    <div>
+                        <div class="text-gray-400 font-orbitron text-xs uppercase tracking-wider">Vel. Máxima</div>
+                        <div class="text-3xl sm:text-4xl font-orbitron font-bold text-f1yellow"><span id="stat-speed">362</span> <span class="text-sm text-gray-400">km/h</span></div>
+                    </div>
+                    <div>
+                        <div class="text-gray-400 font-orbitron text-xs uppercase tracking-wider">Potencia</div>
+                        <div class="text-3xl sm:text-4xl font-orbitron font-bold text-f1red"><span id="stat-hp">1020</span> <span class="text-sm text-gray-400">HP</span></div>
+                    </div>
+                    <div>
+                        <div class="text-gray-400 font-orbitron text-xs uppercase tracking-wider">0-100 Km/h</div>
+                        <div class="text-3xl sm:text-4xl font-orbitron font-bold text-f1cyan"><span id="stat-acc">2.4</span> <span class="text-sm text-gray-400">s</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Right Graphics / Interactive Dashboard Visual -->
+            <div class="lg:col-span-5 relative">
+                <div class="relative mx-auto w-full max-w-md lg:max-w-none">
+                    <!-- Glass Interactive Telemetry Box -->
+                    <div class="glass-panel glass-panel-glow p-6 rounded-2xl relative overflow-hidden">
+                        <!-- Top Bar Decor -->
+                        <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                            </div>
+                            <span class="font-orbitron text-xs text-f1cyan tracking-widest">TELEMETRÍA EN VIVO</span>
+                        </div>
+
+                        <!-- F1 Wheel Dynamic Dashboard SVG Mock -->
+                        <div class="relative flex flex-col items-center justify-center p-4">
+                            <div class="w-48 h-48 rounded-full border-4 border-dashed border-f1red/40 flex items-center justify-center relative animate-spin" style="animation-duration: 25s;">
+                            </div>
+                            
+                            <!-- Speed Display Overlay -->
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span class="text-xs font-orbitron text-gray-400">ENGRANAJE</span>
+                                <span class="text-6xl font-orbitron font-black text-f1yellow tracking-tighter" id="gear-indicator">8</span>
+                                <div class="flex space-x-1 mt-2">
+                                    <div class="w-3 h-1.5 bg-green-500 rounded"></div>
+                                    <div class="w-3 h-1.5 bg-green-500 rounded"></div>
+                                    <div class="w-3 h-1.5 bg-yellow-500 rounded"></div>
+                                    <div class="w-3 h-1.5 bg-yellow-500 rounded"></div>
+                                    <div class="w-3 h-1.5 bg-f1red rounded animate-pulse"></div>
+                                    <div class="w-3 h-1.5 bg-f1red rounded animate-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive REV Slider Simulator -->
+                        <div class="mt-6 space-y-2">
+                            <div class="flex justify-between text-xs font-orbitron">
+                                <span class="text-gray-400">REV RPM SIMULATOR</span>
+                                <span class="text-f1red font-bold" id="rpm-text">11,500 RPM</span>
+                            </div>
+                            <input type="range" id="rpm-slider" min="3000" max="15000" value="11500" class="w-full accent-f1red cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TEAMS SHOWCASE & AUDIO SIMULATOR -->
+    <section id="teams" class="py-20 px-6 max-w-7xl mx-auto relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-xs font-orbitron font-bold text-f1cyan tracking-widest uppercase mb-2">// MONOPLAZAS & PILOTOS</h2>
+            <h3 class="text-4xl sm:text-5xl font-orbitron font-black italic uppercase">EQUIPOS DE ÉLITE</h3>
+            <p class="text-gray-400 mt-4 text-base">Selecciona una escudería para inspeccionar sus estadísticas, telemetría y escuchar el rugido del motor V6 Turbo Híbrido en vivo mediante síntesis de audio.</p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex justify-center flex-wrap gap-3 mb-12">
+            <button onclick="filterTeam('all')" class="team-filter-btn active bg-f1red text-white font-orbitron text-xs font-bold px-6 py-3 clip-btn transition">TODOS</button>
+            <button onclick="filterTeam('redbull')" class="team-filter-btn glass-panel text-gray-300 hover:text-white font-orbitron text-xs font-bold px-6 py-3 clip-btn transition">RED BULL</button>
+            <button onclick="filterTeam('ferrari')" class="team-filter-btn glass-panel text-gray-300 hover:text-white font-orbitron text-xs font-bold px-6 py-3 clip-btn transition">FERRARI</button>
+            <button onclick="filterTeam('mercedes')" class="team-filter-btn glass-panel text-gray-300 hover:text-white font-orbitron text-xs font-bold px-6 py-3 clip-btn transition">MERCEDES</button>
+            <button onclick="filterTeam('mclaren')" class="team-filter-btn glass-panel text-gray-300 hover:text-white font-orbitron text-xs font-bold px-6 py-3 clip-btn transition">MCLAREN</button>
+        </div>
+
+        <!-- Teams Grid Container -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="teams-grid">
+            <!-- Dynamic Injection from JS -->
+        </div>
+
+        <!-- Engine Audio Simulator Control Box -->
+        <div class="mt-12 glass-panel glass-panel-glow p-6 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-4">
+                <div class="w-14 h-14 rounded-full bg-f1red/20 border border-f1red flex items-center justify-center text-f1red text-2xl">
+                    <i class="fa-solid fa-volume-high"></i>
+                </div>
+                <div>
+                    <h4 class="font-orbitron font-bold text-lg text-white">SIMULADOR DE SONIDO SINTETIZADO</h4>
+                    <p class="text-sm text-gray-400">Utiliza la Web Audio API para generar la resonancia de un motor F1 a altas revoluciones.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button id="engine-sound-btn" onclick="toggleEngineSound()" class="bg-f1yellow hover:bg-yellow-400 text-black font-orbitron font-bold text-sm px-6 py-3 clip-btn transition flex items-center space-x-2">
+                    <i class="fa-solid fa-play" id="engine-btn-icon"></i>
+                    <span id="engine-btn-text">ACELERAR MOTOR</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRACK VISUALIZER & CALENDAR -->
+    <section id="tracks" class="py-20 px-6 bg-f1dark/80 relative z-10 border-y border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-orbitron font-bold text-f1yellow tracking-widest uppercase mb-2">// CIRCUITO MUNDIAL</h2>
+                <h3 class="text-4xl sm:text-5xl font-orbitron font-black italic uppercase">VISUALIZADOR DE PISTAS</h3>
+                <p class="text-gray-400 mt-4 text-base">Análisis táctico de trazados icónicos del calendario. Trazados técnicos, zonas de DRS y récords de vuelta rápida.</p>
+            </div>
+
+            <!-- Track Selector + Display Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Track Selector Tabs -->
+                <div class="lg:col-span-4 space-y-3" id="track-list">
+                    <!-- Dynamic Tracks injected here -->
+                </div>
+
+                <!-- Track Canvas & Stats Box -->
+                <div class="lg:col-span-8 glass-panel p-6 rounded-2xl relative">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <span class="text-xs font-orbitron text-f1cyan tracking-wider uppercase" id="track-country">MÓNACO</span>
+                            <h4 class="text-3xl font-orbitron font-black text-white italic" id="track-name">CIRCUIT DE MONACO</h4>
+                        </div>
+                        <span class="px-4 py-1.5 bg-f1red/20 border border-f1red text-f1red font-orbitron text-xs font-bold rounded-full" id="track-laps">78 VUELTAS</span>
+                    </div>
+
+                    <!-- Track SVG Visualizer Container -->
+                    <div class="relative w-full h-72 bg-f1dark/90 rounded-xl border border-white/5 flex items-center justify-center p-4 overflow-hidden" id="track-svg-container">
+                        <!-- SVG Drawn Dynamic Track -->
+                    </div>
+
+                    <!-- Track Technical Stats Breakdown -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-white/10">
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5">
+                            <span class="text-xs text-gray-400 font-orbitron block">LONGITUD</span>
+                            <span class="text-xl font-orbitron font-bold text-f1yellow" id="stat-length">3.337 km</span>
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5">
+                            <span class="text-xs text-gray-400 font-orbitron block">CURVAS</span>
+                            <span class="text-xl font-orbitron font-bold text-white" id="stat-turns">19 (11D / 8I)</span>
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5">
+                            <span class="text-xs text-gray-400 font-orbitron block">RÉCORD VUELTA</span>
+                            <span class="text-xl font-orbitron font-bold text-f1cyan" id="stat-record">1:12.909</span>
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5">
+                            <span class="text-xs text-gray-400 font-orbitron block">PILOTO RÈCORD</span>
+                            <span class="text-sm font-orbitron font-bold text-f1red truncate block" id="stat-holder">L. Hamilton (2021)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE INTERACTIVE PIT STOP MINI-GAME -->
+    <section id="pitstop" class="py-20 px-6 max-w-7xl mx-auto relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <h2 class="text-xs font-orbitron font-bold text-f1red tracking-widest uppercase mb-2">// DESAFÍO DE REACCIÓN</h2>
+            <h3 class="text-4xl sm:text-5xl font-orbitron font-black italic uppercase">PIT STOP CHALLENGE</h3>
+            <p class="text-gray-400 mt-4 text-base">Un Pit Stop en F1 toma menos de 2.0 segundos. Presiona ESPACIO o toca los botones rápidamente para cambiar los 4 neumáticos sin cometer fallos.</p>
+        </div>
+
+        <div class="glass-panel glass-panel-glow max-w-4xl mx-auto p-8 rounded-2xl text-center relative overflow-hidden">
+            <!-- Game Status & Timer -->
+            <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+                <div>
+                    <span class="text-xs font-orbitron text-gray-400 uppercase">TU TIEMPO</span>
+                    <div class="text-4xl font-orbitron font-black text-f1yellow" id="pit-timer">0.000 s</div>
+                </div>
+                <div>
+                    <span class="text-xs font-orbitron text-gray-400 uppercase">MEJOR TIEMPO</span>
+                    <div class="text-2xl font-orbitron font-bold text-f1cyan" id="pit-best">--</div>
+                </div>
+            </div>
+
+            <!-- Interactive Tire Changing Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 my-8">
+                <!-- Front Left -->
+                <div id="tire-fl" onclick="changeTire('fl')" class="tire-box glass-panel p-6 rounded-xl border-2 border-white/10 flex flex-col items-center justify-center cursor-pointer hover:border-f1red transition group">
+                    <i class="fa-solid fa-[#111] fa-circle-notch text-5xl text-gray-600 group-hover:text-f1red transition mb-3"></i>
+                    <span class="font-orbitron text-xs font-bold text-gray-300">DELANTERO IZQ</span>
+                    <span class="tire-status text-xs font-orbitron font-bold text-f1red mt-1">PENDIENTE</span>
+                </div>
+                <!-- Front Right -->
+                <div id="tire-fr" onclick="changeTire('fr')" class="tire-box glass-panel p-6 rounded-xl border-2 border-white/10 flex flex-col items-center justify-center cursor-pointer hover:border-f1red transition group">
+                    <i class="fa-solid fa-circle-notch text-5xl text-gray-600 group-hover:text-f1red transition mb-3"></i>
+                    <span class="font-orbitron text-xs font-bold text-gray-300">DELANTERO DER</span>
+                    <span class="tire-status text-xs font-orbitron font-bold text-f1red mt-1">PENDIENTE</span>
+                </div>
+                <!-- Rear Left -->
+                <div id="tire-rl" onclick="changeTire('rl')" class="tire-box glass-panel p-6 rounded-xl border-2 border-white/10 flex flex-col items-center justify-center cursor-pointer hover:border-f1red transition group">
+                    <i class="fa-solid fa-circle-notch text-5xl text-gray-600 group-hover:text-f1red transition mb-3"></i>
+                    <span class="font-orbitron text-xs font-bold text-gray-300">TRASERO IZQ</span>
+                    <span class="tire-status text-xs font-orbitron font-bold text-f1red mt-1">PENDIENTE</span>
+                </div>
+                <!-- Rear Right -->
+                <div id="tire-rr" onclick="changeTire('rr')" class="tire-box glass-panel p-6 rounded-xl border-2 border-white/10 flex flex-col items-center justify-center cursor-pointer hover:border-f1red transition group">
+                    <i class="fa-solid fa-circle-notch text-5xl text-gray-600 group-hover:text-f1red transition mb-3"></i>
+                    <span class="font-orbitron text-xs font-bold text-gray-300">TRASERO DER</span>
+                    <span class="tire-status text-xs font-orbitron font-bold text-f1red mt-1">PENDIENTE</span>
+                </div>
+            </div>
+
+            <!-- Start / Reset Controls -->
+            <div class="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
+                <button id="start-pit-btn" onclick="startPitGame()" class="w-full sm:w-auto bg-f1red hover:bg-red-600 text-white font-orbitron font-bold px-10 py-4 clip-btn transition shadow-lg shadow-f1red/50">
+                    INICIAR PIT STOP (SPACE)
+                </button>
+            </div>
+            
+            <p class="text-xs text-gray-500 font-orbitron mt-4">Haz clic en "Iniciar", luego presiona o toca cada una de las 4 ruedas lo más rápido posible.</p>
+        </div>
+    </section>
+
+    <!-- TECH SPEC INSPECTOR (POWER UNIT BREAKDOWN) -->
+    <section id="tech" class="py-20 px-6 bg-f1dark/90 border-t border-white/10 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-orbitron font-bold text-f1cyan tracking-widest uppercase mb-2">// INGENIERÍA AVANZADA</h2>
+                <h3 class="text-4xl sm:text-5xl font-orbitron font-black italic uppercase">MOTOR V6 TURBO HÍBRIDO</h3>
+                <p class="text-gray-400 mt-4 text-base">Explora los componentes de la unidad de potencia con una eficiencia térmica superior al 50%.</p>
+            </div>
+
+            <!-- Interactive Hotspot Inspector Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Power Unit Component Selector Buttons -->
+                <div class="lg:col-span-5 space-y-4">
+                    <button onclick="selectTech('ice')" id="tech-btn-ice" class="tech-btn w-full text-left glass-panel p-5 rounded-xl border-l-4 border-f1red flex items-center justify-between hover:bg-white/5 transition">
+                        <div>
+                            <h4 class="font-orbitron font-bold text-lg text-white">ICE (Motor de Combustión)</h4>
+                            <p class="text-xs text-gray-400">V6 de 1.6L a 15,000 RPM máximo</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-f1red"></i>
+                    </button>
+
+                    <button onclick="selectTech('mguk')" id="tech-btn-mguk" class="tech-btn w-full text-left glass-panel p-5 rounded-xl border-l-4 border-transparent flex items-center justify-between hover:bg-white/5 transition">
+                        <div>
+                            <h4 class="font-orbitron font-bold text-lg text-white">MGU-K (Kinetic Energy)</h4>
+                            <p class="text-xs text-gray-400">Recuperación de energía en frenado (120 kW)</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                    </button>
+
+                    <button onclick="selectTech('mguh')" id="tech-btn-mguh" class="tech-btn w-full text-left glass-panel p-5 rounded-xl border-l-4 border-transparent flex items-center justify-between hover:bg-white/5 transition">
+                        <div>
+                            <h4 class="font-orbitron font-bold text-lg text-white">MGU-H (Heat Energy)</h4>
+                            <p class="text-xs text-gray-400">Recuperación de gases de escape del turbo</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                    </button>
+
+                    <button onclick="selectTech('turbo')" id="tech-btn-turbo" class="tech-btn w-full text-left glass-panel p-5 rounded-xl border-l-4 border-transparent flex items-center justify-between hover:bg-white/5 transition">
+                        <div>
+                            <h4 class="font-orbitron font-bold text-lg text-white">Turbocompresor</h4>
+                            <p class="text-xs text-gray-400">Inyección de aire a alta presión</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                    </button>
+                </div>
+
+                <!-- Selected Component Details Panel -->
+                <div class="lg:col-span-7 glass-panel glass-panel-glow p-8 rounded-2xl min-h-[350px] flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <span class="w-3 h-3 rounded-full bg-f1red"></span>
+                            <span class="text-xs font-orbitron text-f1cyan tracking-widest uppercase" id="tech-code">COMPONENTE 01</span>
+                        </div>
+
+                        <h3 class="text-3xl font-orbitron font-black text-white italic mb-4" id="tech-title">Motor de Combustión Interna (ICE)</h3>
+                        <p class="text-gray-300 leading-relaxed text-base mb-6" id="tech-desc">
+                            El corazón tradicional de la unidad de potencia. Es un motor V6 de 1.6 litros con inyección directa de combustible a 500 bares de presión y limitado a 15,000 RPM. Produce aproximadamente 600 a 700 caballos de fuerza únicamente con combustible sintético/sostenible.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                        <div>
+                            <span class="text-xs text-gray-400 font-orbitron block">EFICIENCIA</span>
+                            <span class="text-xl font-orbitron font-bold text-f1yellow" id="tech-stat1">> 50%</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-400 font-orbitron block">RMP MÁX</span>
+                            <span class="text-xl font-orbitron font-bold text-f1red" id="tech-stat2">15,000</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-400 font-orbitron block">POTENCIA</span>
+                            <span class="text-xl font-orbitron font-bold text-f1cyan" id="tech-stat3">~700 HP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-12 px-6 border-t border-white/10 text-center relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-f1red flex items-center justify-center font-orbitron font-black text-lg italic text-white clip-corner">
+                    F1
+                </div>
+                <span class="font-orbitron text-lg font-black tracking-widest text-white italic">
+                    APEX<span class="text-f1red">.350</span>
+                </span>
+            </div>
+
+            <p class="text-xs text-gray-500 font-orbitron">
+                © 2026 F1 APEX Showcase. Fan-made interactive experience.
+            </p>
+
+            <div class="flex space-x-6 text-gray-400 text-lg">
+                <a href="#" class="hover:text-f1red transition"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="hover:text-f1red transition"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="hover:text-f1red transition"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT INTERACTIVE LOGIC -->
+    <script>
+        // --- 1. TEAMS DATA & FILTERING ---
+        const teamsData = [
+            {
+                id: 'redbull',
+                name: 'Oracle Red Bull Racing',
+                car: 'RB20',
+                engine: 'Honda RBPT',
+                drivers: ['Max Verstappen', 'Sergio Pérez'],
+                color: '#061D95',
+                accent: '#FF1801',
+                stats: { speed: 98, aero: 99, power: 96 }
+            },
+            {
+                id: 'ferrari',
+                name: 'Scuderia Ferrari HP',
+                car: 'SF-24',
+                engine: 'Ferrari 066/12',
+                drivers: ['Charles Leclerc', 'Lewis Hamilton'],
+                color: '#E80020',
+                accent: '#FFE500',
+                stats: { speed: 97, aero: 96, power: 98 }
+            },
+            {
+                id: 'mercedes',
+                name: 'Mercedes-AMG PETRONAS',
+                car: 'W15 E Performance',
+                engine: 'Mercedes-AMG M15',
+                drivers: ['George Russell', 'Kimi Antonelli'],
+                color: '#00A19B',
+                accent: '#FFFFFF',
+                stats: { speed: 95, aero: 96, power: 97 }
+            },
+            {
+                id: 'mclaren',
+                name: 'McLaren Formula 1 Team',
+                car: 'MCL38',
+                engine: 'Mercedes-AMG M15',
+                drivers: ['Lando Norris', 'Oscar Piastri'],
+                color: '#FF8000',
+                accent: '#00F0FF',
+                stats: { speed: 99, aero: 98, power: 96 }
+            }
+        ];
+
+        function renderTeams(filter = 'all') {
+            const container = document.getElementById('teams-grid');
+            container.innerHTML = '';
+
+            const filtered = filter === 'all' ? teamsData : teamsData.filter(t => t.id === filter);
+
+            filtered.forEach(team => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel p-6 rounded-2xl relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-f1red/50 group';
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-white/10 to-transparent clip-corner"></div>
+                    <span class="text-xs font-orbitron font-bold text-f1cyan uppercase tracking-wider">${team.engine}</span>
+                    <h3 class="text-2xl font-orbitron font-black italic text-white mt-1 mb-2">${team.name}</h3>
+                    <div class="text-sm text-gray-400 font-orbitron mb-4">MONOPLAZA: <span class="text-white font-bold">${team.car}</span></div>
+                    
+                    <div class="space-y-3 my-6">
+                        <div>
+                            <div class="flex justify-between text-xs font-orbitron mb-1">
+                                <span class="text-gray-400">Carga Aerodinámica</span>
+                                <span class="text-f1yellow font-bold">${team.stats.aero}%</span>
+                            </div>
+                            <div class="w-full h-2 bg-black/60 rounded-full overflow-hidden">
+                                <div class="h-full bg-f1yellow rounded-full" style="width: ${team.stats.aero}%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-orbitron mb-1">
+                                <span class="text-gray-400">Potencia del Motor</span>
+                                <span class="text-f1red font-bold">${team.stats.power}%</span>
+                            </div>
+                            <div class="w-full h-2 bg-black/60 rounded-full overflow-hidden">
+                                <div class="h-full bg-f1red rounded-full" style="width: ${team.stats.power}%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-white/10 pt-4 flex justify-between items-center">
+                        <span class="text-xs font-orbitron text-gray-400">PILOTOS</span>
+                        <span class="text-xs font-orbitron font-bold text-white">${team.drivers.join(' • ')}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterTeam(id) {
+            document.querySelectorAll('.team-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-f1red', 'text-white');
+                btn.classList.add('glass-panel', 'text-gray-300');
+            });
+            event.target.classList.add('bg-f1red', 'text-white');
+            event.target.classList.remove('glass-panel', 'text-gray-300');
+            renderTeams(id);
+        }
+
+        // --- 2. TRACKS VISUALIZER DATA ---
+        const tracksData = [
+            {
+                id: 'monaco',
+                country: 'MÓNAC0',
+                name: 'CIRCUIT DE MONACO',
+                laps: '78 VUELTAS',
+                length: '3.337 km',
+                turns: '19 (11D / 8I)',
+                record: '1:12.909',
+                holder: 'L. Hamilton (2021)',
+                svgPath: 'M 50 150 C 80 50, 150 50, 200 100 C 250 150, 300 100, 350 120 C 400 140, 450 80, 500 150 C 450 220, 300 250, 200 220 Z'
+            },
+            {
+                id: 'silverstone',
+                country: 'REINO UNIDO',
+                name: 'SILVERSTONE CIRCUIT',
+                laps: '52 VUELTAS',
+                length: '5.891 km',
+                turns: '18 (10D / 8I)',
+                record: '1:27.097',
+                holder: 'M. Verstappen (2020)',
+                svgPath: 'M 60 80 L 250 60 L 400 100 L 480 180 L 350 240 L 220 220 L 120 250 L 60 180 Z'
+            },
+            {
+                id: 'spa',
+                country: 'BÉLGICA',
+                name: 'CIRCUIT DE SPA-FRANCORCHAMPS',
+                laps: '44 VUELTAS',
+                length: '7.004 km',
+                turns: '19 (10D / 9I)',
+                record: '1:46.286',
+                holder: 'V. Bottas (2018)',
+                svgPath: 'M 80 200 L 150 80 L 280 60 L 450 110 L 520 200 L 380 260 L 200 240 Z'
+            },
+            {
+                id: 'monza',
+                country: 'ITALIA',
+                name: 'AUTODROMO NAZIONALE MONZA',
+                laps: '53 VUELTAS',
+                length: '5.793 km',
+                turns: '11 (7D / 4I)',
+                record: '1:21.046',
+                holder: 'R. Barrichello (2004)',
+                svgPath: 'M 50 150 L 200 80 L 450 80 L 520 150 L 450 220 L 200 220 Z'
+            }
+        ];
+
+        function renderTrackSelector() {
+            const list = document.getElementById('track-list');
+            list.innerHTML = '';
+
+            tracksData.forEach((t, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border transition duration-300 flex items-center justify-between ${index === 0 ? 'glass-panel border-f1red text-white' : 'glass-panel border-transparent text-gray-400 hover:text-white'}`;
+                btn.onclick = () => selectTrack(t, btn);
+                btn.innerHTML = `
+                    <div>
+                        <span class="text-xs font-orbitron text-f1yellow block">${t.country}</span>
+                        <span class="font-orbitron font-bold text-sm">${t.name}</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                `;
+                list.appendChild(btn);
+            });
+
+            selectTrack(tracksData[0]);
+        }
+
+        function selectTrack(track, element) {
+            if (element) {
+                document.querySelectorAll('#track-list button').forEach(b => {
+                    b.classList.remove('border-f1red', 'text-white');
+                    b.classList.add('border-transparent', 'text-gray-400');
+                });
+                element.classList.add('border-f1red', 'text-white');
+                element.classList.remove('border-transparent', 'text-gray-400');
+            }
+
+            document.getElementById('track-country').innerText = track.country;
+            document.getElementById('track-name').innerText = track.name;
+            document.getElementById('track-laps').innerText = track.laps;
+            document.getElementById('stat-length').innerText = track.length;
+            document.getElementById('stat-turns').innerText = track.turns;
+            document.getElementById('stat-record').innerText = track.record;
+            document.getElementById('stat-holder').innerText = track.holder;
+
+            // Render SVG Track Map
+            const svgContainer = document.getElementById('track-svg-container');
+            svgContainer.innerHTML = `
+                <svg viewBox="0 0 600 300" class="w-full h-full glow-pulse">
+                    <path d="${track.svgPath}" fill="none" stroke="#FF1801" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="${track.svgPath}" fill="none" stroke="#00F0FF" stroke-width="2" stroke-dasharray="10 15" class="animate-pulse" />
+                </svg>
+            `;
+        }
+
+        // --- 3. WEB AUDIO SYNTHESIZER (F1 ENGINE SOUND) ---
+        let audioCtx = null;
+        let oscillator = null;
+        let gainNode = null;
+        let isEnginePlaying = false;
+
+        function toggleEngineSound() {
+            if (!isEnginePlaying) {
+                startEngineSound();
+            } else {
+                stopEngineSound();
+            }
+        }
+
+        function startEngineSound() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            oscillator = audioCtx.createOscillator();
+            gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(220, audioCtx.currentTime); // Pitch
+
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            isEnginePlaying = true;
+
+            document.getElementById('engine-btn-text').innerText = 'DETENER MOTOR';
+            document.getElementById('engine-btn-icon').className = 'fa-solid fa-stop';
+
+            // Connect RPM slider to engine audio pitch
+            const rpmSlider = document.getElementById('rpm-slider');
+            rpmSlider.addEventListener('input', updateEnginePitch);
+        }
+
+        function updateEnginePitch(e) {
+            const rpm = e.target.value;
+            document.getElementById('rpm-text').innerText = `${parseInt(rpm).toLocaleString()} RPM`;
+            document.getElementById('gear-indicator').innerText = Math.min(8, Math.max(1, Math.floor(rpm / 1800)));
+
+            if (oscillator && audioCtx) {
+                const pitch = 100 + (rpm / 15000) * 450;
+                oscillator.frequency.setTargetAtTime(pitch, audioCtx.currentTime, 0.05);
+            }
+        }
+
+        function stopEngineSound() {
+            if (oscillator) {
+                oscillator.stop();
+                oscillator.disconnect();
+                isEnginePlaying = false;
+            }
+            document.getElementById('engine-btn-text').innerText = 'ACELERAR MOTOR';
+            document.getElementById('engine-btn-icon').className = 'fa-solid fa-play';
+        }
+
+        // --- 4. PIT STOP MINI-GAME LOGIC ---
+        let pitActive = false;
+        let pitStartTime = 0;
+        let pitTimerInterval = null;
+        let changedTires = { fl: false, fr: false, rl: false, rr: false };
+        let bestPitTime = null;
+
+        function startPitGame() {
+            pitActive = true;
+            changedTires = { fl: false, fr: false, rl: false, rr: false };
+            
+            // Reset UI
+            document.querySelectorAll('.tire-box').forEach(box => {
+                box.classList.remove('border-green-500', 'bg-green-500/20');
+                box.classList.add('border-white/10');
+                box.querySelector('.tire-status').innerText = 'PENDIENTE';
+                box.querySelector('.tire-status').className = 'tire-status text-xs font-orbitron font-bold text-f1red mt-1';
+                box.querySelector('i').className = 'fa-solid fa-circle-notch text-5xl text-gray-600 group-hover:text-f1red transition mb-3';
+            });
+
+            pitStartTime = performance.now();
+            document.getElementById('start-pit-btn').innerText = '¡CAMBIA LAS RUEDAS!';
+            
+            if (pitTimerInterval) clearInterval(pitTimerInterval);
+            pitTimerInterval = setInterval(() => {
+                const elapsed = (performance.now() - pitStartTime) / 1000;
+                document.getElementById('pit-timer').innerText = `${elapsed.toFixed(3)} s`;
+            }, 10);
+        }
+
+        function changeTire(tireKey) {
+            if (!pitActive || changedTires[tireKey]) return;
+
+            changedTires[tireKey] = true;
+            const el = document.getElementById(`tire-${tireKey}`);
+            el.classList.add('border-green-500', 'bg-green-500/20');
+            el.querySelector('.tire-status').innerText = '¡LISTO!';
+            el.querySelector('.tire-status').className = 'tire-status text-xs font-orbitron font-bold text-green-400 mt-1';
+            el.querySelector('i').className = 'fa-solid fa-check-circle text-5xl text-green-400 mb-3';
+
+            // Check if all tires are done
+            if (Object.values(changedTires).every(Boolean)) {
+                clearInterval(pitTimerInterval);
+                pitActive = false;
+                const finalTime = ((performance.now() - pitStartTime) / 1000).toFixed(3);
+                document.getElementById('pit-timer').innerText = `${finalTime} s`;
+                document.getElementById('start-pit-btn').innerText = 'REINTENTAR PIT STOP';
+
+                if (!bestPitTime || parseFloat(finalTime) < parseFloat(bestPitTime)) {
+                    bestPitTime = finalTime;
+                    document.getElementById('pit-best').innerText = `${bestPitTime} s`;
+                }
+            }
+        }
+
+        // Spacebar shortcut listener for game
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                if (!pitActive) {
+                    startPitGame();
+                }
+            }
+        });
+
+        // --- 5. TECH SPEC INSPECTOR DATA ---
+        const techData = {
+            ice: {
+                code: 'COMPONENTE 01',
+                title: 'Motor de Combustión Interna (ICE)',
+                desc: 'El corazón tradicional de la unidad de potencia. Es un motor V6 de 1.6 litros con inyección directa de combustible a 500 bares de presión y limitado a 15,000 RPM. Produce aproximadamente 600 a 700 caballos de fuerza únicamente con combustible sintético/sostenible.',
+                s1: '> 50%', s2: '15,000', s3: '~700 HP'
+            },
+            mguk: {
+                code: 'COMPONENTE 02',
+                title: 'MGU-K (Kinetic Motor Generator Unit)',
+                desc: 'Conectado directamente al cigüeñal, convierte la energía cinética generada durante las frenadas en energía eléctrica depositada en la batería. Durante la aceleración, entrega hasta 120 kW (~160 HP) suplementarios.',
+                s1: '120 kW', s2: '2,000 kJ/v', s3: '~160 HP'
+            },
+            mguh: {
+                code: 'COMPONENTE 03',
+                title: 'MGU-H (Heat Motor Generator Unit)',
+                desc: 'Un motor/generador eléctrico unido al eje del turbocompresor. Convierte el calor de los gases de escape en electricidad, eliminando por completo el retraso del turbo (turbo lag) y alimentando el MGU-K de forma instantánea.',
+                s1: '125,000 RPM', s2: 'Ilimitado', s3: 'Instantáneo'
+            },
+            turbo: {
+                code: 'COMPONENTE 04',
+                title: 'Turbocompresor de Alta Presión',
+                desc: 'Aumenta la densidad del aire que ingresa al motor de combustión mediante la energía de los gases de escape. Diseñado para resistir temperaturas superiores a los 1,000 °C con aleaciones ultra ligeras.',
+                s1: '1000 °C', s2: '100,000 RPM', s3: '3.5 Bares'
+            }
+        };
+
+        function selectTech(key) {
+            const data = techData[key];
+            document.getElementById('tech-code').innerText = data.code;
+            document.getElementById('tech-title').innerText = data.title;
+            document.getElementById('tech-desc').innerText = data.desc;
+            document.getElementById('tech-stat1').innerText = data.s1;
+            document.getElementById('tech-stat2').innerText = data.s2;
+            document.getElementById('tech-stat3').innerText = data.s3;
+
+            document.querySelectorAll('.tech-btn').forEach(b => {
+                b.classList.remove('border-f1red');
+                b.classList.add('border-transparent');
+            });
+
+            document.getElementById(`tech-btn-${key}`).classList.add('border-f1red');
+            document.getElementById(`tech-btn-${key}`).classList.remove('border-transparent');
+        }
+
+        // --- INIT ON LOAD ---
+        window.onload = function() {
+            renderTeams('all');
+            renderTrackSelector();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Categorías | Biblioteca</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			border: 1px solid #999;
+			padding: 8px;
+			text-align: left;
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<h1>Categorías de la biblioteca</h1>
+		<p><a href="{% url 'categoria_create' %}">Registrar categoría</a></p>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Descripción</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for categoria in categorias %}
+				<tr>
+					<td>{{ categoria.nombre }}</td>
+					<td>{{ categoria.descripcion|default:"-" }}</td>
+					<td>
+						<a href="{% url 'categoria_update' categoria.pk %}">Editar</a>
+						<a href="{% url 'categoria_delete' categoria.pk %}">Eliminar</a>
+					</td>
+				</tr>
+			{% empty %}
+				<tr>
+					<td colspan="3">No hay categorías registradas.</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</main>
+</body>
+</html>

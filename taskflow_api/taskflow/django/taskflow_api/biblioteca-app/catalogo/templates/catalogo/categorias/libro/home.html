@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú principal | Biblioteca</title>
+    <style>
+        main {
+            margin: 3rem auto;
+            max-width: 700px;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        nav a {
+            border: 1px solid #555;
+            border-radius: 6px;
+            padding: 1rem 2rem;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Menú principal</h1>
+        <p>Selecciona una sección de la biblioteca:</p>
+        <nav aria-label="Secciones de la biblioteca">
+            <a href="{% url 'libro_list' %}">Libros</a>
+            <a href="{% url 'categoria_list' %}">Categorías</a>
+        </nav>
+    </main>
+</body>
+</html>

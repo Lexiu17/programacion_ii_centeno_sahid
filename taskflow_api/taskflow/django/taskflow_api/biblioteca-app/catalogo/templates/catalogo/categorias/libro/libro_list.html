@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de libros</title>
+</head>
+<body>
+    <h1>Lista de libros</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>ISBN</th>
+                <th>Fecha de publicación</th>
+                <th>Categoría</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for libro in libros %}
+            <tr>
+                <td>{{ libro.titulo }}</td>
+                <td>{{ libro.autor }}</td>
+                <td>{{ libro.isbn|default:"-" }}</td>
+                <td>{{ libro.fecha_publicacion }}</td>
+                <td>{{ libro.categoria }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No hay libros registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><a href="{% url 'create_libro' %}">Registrar nuevo libro</a></p>
+</body>
+</html> 

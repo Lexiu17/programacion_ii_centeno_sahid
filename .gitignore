@@ -28,10 +28,17 @@ Python - Compilados y Caching
 
 ------------------------------------------
 
+<<<<<<< HEAD
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+=======
 /pycache/
 /.py[cod]
 /$py.class
 /.so
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
 /.Python
 /build/
 /develop-eggs/
@@ -57,6 +64,17 @@ Entornos Virtuales (Virtual Environments)
 
 ------------------------------------------
 
+<<<<<<< HEAD
+**/venv/
+**/venvs/
+**/.venv/
+**/env/
+**/envs/
+**/.env/
+**/ENV/
+**/env.bak/
+**/venv.bak/
+=======
 /venv/
 /venvs/
 /.venv/
@@ -66,6 +84,7 @@ Entornos Virtuales (Virtual Environments)
 /ENV/
 /env.bak/
 /venv.bak/
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
 /pip-wheel-metadata/
 
 ------------------------------------------

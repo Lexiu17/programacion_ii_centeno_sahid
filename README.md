@@ -4,6 +4,47 @@ Repositorio con los trabajos, ejercicios y proyectos de la materia **Programaci�
 
 ---
 
+<<<<<<< HEAD
+## Estructura actual
+
+```text
+.
+├── python/                         # Ejercicios independientes de Python
+├── taskflow_api/                   # Proyecto Django TaskFlow
+│   ├── manage.py
+│   ├── tasks/                       # Aplicación de tareas y proyectos
+│   └── taskflow/django/taskflow_api/
+│       ├── tasks/                   # Otra copia/proyecto de TaskFlow
+│       └── biblioteca-app/          # Proyecto Django de biblioteca
+│           ├── manage.py
+│           ├── catalogo/            # Categorías, formularios y vistas
+│           └── config/              # Configuración Django
+└── README.md
+```
+
+Las carpetas `taskflow_api/` y `taskflow_api/taskflow/django/taskflow_api/` contienen proyectos Django separados. Cada uno tiene su propio `manage.py`; ejecuta los comandos desde la carpeta del proyecto que quieras usar. No hay actualmente carpetas `odoo/` ni un `requirements.txt` en la raíz.
+
+## Requisitos
+
+- Python compatible con la versión de Django indicada en cada proyecto.
+- `pip`.
+
+La app de biblioteca declara sus dependencias en `taskflow_api/taskflow/django/taskflow_api/biblioteca-app/requirements.txt`.
+
+## Cómo ejecutar
+
+Ejecuta un ejercicio de Python desde la raíz:
+
+```bash
+python python/01_hello_world.py
+```
+
+Para iniciar TaskFlow:
+
+```bash
+cd taskflow_api
+python -m pip install Django
+=======
 ## Tecnologías
 
 ### Python
@@ -79,10 +120,23 @@ python python/nombre_del_archivo.py
 
 ```bash
 cd django/nombre_del_proyecto
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
 python manage.py migrate
 python manage.py runserver
 ```
 
+<<<<<<< HEAD
+Para iniciar la app de biblioteca, instala sus dependencias y entra en su carpeta:
+
+```bash
+python -m pip install -r taskflow_api/taskflow/django/taskflow_api/biblioteca-app/requirements.txt
+cd taskflow_api/taskflow/django/taskflow_api/biblioteca-app
+python manage.py migrate
+python manage.py runserver
+```
+
+En ambos casos, Django inicia por defecto en `http://127.0.0.1:8000`.
+=======
 Luego abrir `http://127.0.0.1:8000` en el navegador.
 
 **Odoo**
@@ -92,6 +146,7 @@ python odoo-bin -c odoo.conf
 ```
 
 Luego abrir `http://localhost:8069` en el navegador.
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
 
 ---
 
