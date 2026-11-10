@@ -1,5 +1,8 @@
 from django.http import HttpResponse
+<<<<<<< HEAD
 from django.shortcuts import render
+=======
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
 
 
 def home(request):

@@ -79,6 +79,20 @@ DATABASES = {
     }
 }
 
+<<<<<<< HEAD
+=======
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'proyect_db',  # Por ejemplo: taskflow_db
+        'USER': 'postgres',                  # Por ejemplo: postgres
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+>>>>>>> 378acc3d337ff8c45492e399c5c027a1a1ed2108
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 
